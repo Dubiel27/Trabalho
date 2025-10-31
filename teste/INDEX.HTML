@@ -3,69 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demonstração de Escopo (Global vs. Local)</title>
+    <title>Demonstração de Escopo de Bloco (let vs. var)</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Consolas', monospace;
             margin: 20px;
-            background-color: #f4f4f4;
+            background-color: #f0f8ff;
         }
         .container {
             background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
-        h2 {
-            color: #333;
-            border-bottom: 2px solid #ccc;
-            padding-bottom: 10px;
+        h1, h2 {
+            color: #0056b3;
         }
-        .resultado {
+        code {
+            background-color: #e6e6fa;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .output {
             margin-top: 15px;
             padding: 10px;
-            border: 1px solid #ddd;
-            background-color: #e9e9e9;
-            border-radius: 4px;
+            border: 1px dashed #0056b3;
+            background-color: #f0f0ff;
+            border-radius: 5px;
         }
-        .error {
-            color: red;
-            font-weight: bold;
-        }
-        .global {
-            color: blue;
-            font-weight: bold;
-        }
-        .local {
-            color: green;
-            font-weight: bold;
-        }
+        .success { color: green; font-weight: bold; }
+        .failure { color: red; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Escopo de Variáveis: Global vs. Local (JavaScript)</h1>
-        <p>Abra o **Console do Desenvolvedor** (Geralmente F12) para ver os logs detalhados do JavaScript.</p>
-        
-        <div class="resultado">
-            <p><strong>Resultado Visual:</strong></p>
-            <p id="global-before"></p>
-            <p id="inside-function"></p>
-            <p id="global-after"></p>
-            <p id="local-after"></p>
+        <h1>Escopo de Bloco: A Diferença entre `var` e `let/const`</h1>
+        <p>Observe o **Console (F12)** para as mensagens de erro e a saída detalhada.</p>
+
+        <div class="output">
+            <p><strong>Resultado no HTML:</strong></p>
+            <p id="var-outside"></p>
+            <p id="let-outside"></p>
+            <p id="const-outside"></p>
         </div>
-        
-        <h2>Instruções do Código</h2>
+
+        <h2>Estrutura do Escopo:</h2>
         <pre>
-let varGlobal = "Eu sou Global - Valor Fora da Função"; 
+// Variável Global
+let nomeGlobal = "Mundo"; 
 
-function demonstrarEscopo() {
-    let varLocal = "Eu sou Local - Dentro da Função";
+function testeEscopo() {
+    // Escopo de Função: 'var' é visível em toda a função
+    var iVar = 100; 
+
+    if (true) {
+        // Escopo de Bloco (DENTRO do IF):
+        let iLet = 200; 
+        const iConst = 300; 
+        
+        console.log("--- DENTRO DO BLOCO (IF) ---");
+        console.log(`iVar (var): ${iVar}`); 
+        console.log(`iLet (let): ${iLet}`); 
+        console.log(`iConst (const): ${iConst}`); 
+    }
     
-    // Tentativa de modificar a Global sem a keyword 'var' ou 'let' (Em JS moderno, isso é desaconselhado)
-    // Usando 'let' ou 'const', criamos uma nova variável LOCAL:
-    let varGlobal = "Valor Local que Mascara a Global (SOBREPOSIÇÃO LOCAL)"; 
+    console.log("--- DENTRO DA FUNÇÃO (FORA DO IF) ---");
+    // iVar funciona, pois 'var' tem escopo de função.
+    console.log(`iVar (var): ${iVar}`); 
 
-    console.log("--- Dentro da Função ---");
-    console.log("1. Variável Local (existe
+    // iLet e iConst FALHAM, pois têm escopo de bloco (só existem dentro do {if}).
+    try { console.log(`iLet (let): ${iLet}`); } catch (e) { console.error(`ERRO LET: ${e.name}. Está fora do Bloco!`); }
+    try { console.log(`iConst (const): ${iConst}`); } catch (e) { console.error(`ERRO CONST: ${e.name}. Está fora do Bloco!`); }
+}
+
+testeEscopo();
+
+console.log("\n--- ESCOPO GLOBAL (Fora de Tudo) ---");
+// Variáveis locais (de função ou bloco) FALHAM no escopo global.
+try { console.log(`Acessando iVar: ${iVar}`); } catch (e) { console.error(`ERRO VAR: ${e.name}. É local à função.`); }
+        </pre>
+    </div>
+
+    <script>
+        // ----------------------------------------------------
+        // Lógica de Execução
+        // ----------------------------------------------------
+        
+        // Variável Global
+        let nomeGlobal = "Mundo"; 
+
+        function testeEscopo() {
+            // Escopo de Função: 'var' é visível em toda a função
+            var iVar = 100; 
+
+            if (true) {
+                // Escopo de Bloco (DENTRO do IF):
+                let iLet = 200; 
+                const iConst = 300; 
+                
+                console.log("--- DENTRO DO BLOCO (IF) ---");
+                console.log(`iVar (var): ${iVar} (OK: var tem escopo de função)`); 
+                console.log(`iLet (let): ${iLet} (OK: let está no seu bloco)`); 
+                console.log(`iConst (const): ${iConst} (OK: const está no seu bloco)`); 
+            }
+            
+            console.log("\n--- DENTRO DA FUNÇÃO (FORA DO IF) ---");
+            // iVar funciona, pois 'var' tem escopo de função.
+            console.log(`iVar (var): ${iVar} (OK)`); 
+            document.getElementById('var-outside').innerHTML = `<code>var iVar</code> (Dentro da Função, Fora do IF): <span class="success">Sucesso: ${iVar}</span>`;
+
+            // iLet e iConst FALHAM, pois têm escopo de bloco (só existem dentro do {if}).
+            try { 
+                console.log(`iLet (let): ${iLet}`); 
+            } catch (e) { 
+                console.error(`ERRO LET: ${e.name}. Está fora do Bloco!`); 
+                document.getElementById('let-outside').innerHTML = `<code>let iLet</code> (Dentro da Função, Fora do IF): <span class="failure">Falha: ${e.name}</span>`;
+            }
+
+            try { 
+                console.log(`iConst (const): ${iConst}`); 
+            } catch (e) { 
+                console.error(`ERRO CONST: ${e.name}. Está fora do Bloco!`); 
+                document.getElementById('const-outside').innerHTML = `<code>const iConst</code> (Dentro da Função, Fora do IF): <span class="failure">Falha: ${e.name}</span>`;
+            }
+        }
+
+        testeEscopo();
+
+        console.log("\n--- ESCOPO GLOBAL (Fora de Tudo) ---");
+        // Tentativa de acessar variáveis locais (de função ou bloco) FALHAM no escopo global.
+        try { 
+            console.log(`Acessando iVar: ${iVar}`); 
+        } catch (e) { 
+            console.error(`ERRO GLOBAL: ${e.name}. iVar é local à função testeEscopo.`); 
+        }
+    </script>
+
+</body>
+</html>
