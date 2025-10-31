@@ -1,0 +1,59 @@
+# =========================================================
+# DEMONSTRAÇÃO DE ESCOPO GLOBAL E LOCAL EM PYTHON
+# =========================================================
+
+# Variável Global: Definida no escopo principal, fora de qualquer função.
+nome_global = "Universo"
+contador_global = 5
+
+def escopo_demonstracao():
+    """Função que demonstra o escopo local e a interação com o escopo global."""
+    
+    # Variável Local: Definida dentro da função, só existe aqui.
+    saudacao_local = "Boa Noite"
+    
+    # Acessa a variável GLOBAL para leitura
+    print(f"--- Dentro da Função ---")
+    print(f"1. Acessando Global (Leitura): {saudacao_local}, {nome_global}!")
+    
+    # Tenta criar uma nova variável local com o mesmo nome
+    variavel_local = 10 
+    print(f"2. Variável Local criada: {variavel_local}")
+
+    # Exemplo de erro se tentarmos usar uma variável global para escrita sem 'global'
+    # O Python tentaria criar uma nova variável local, e falharia se fosse só leitura.
+    # Vamos demonstrar como fazer a modificação corretamente:
+    
+    global contador_global # Declara que queremos USAR e MODIFICAR a variável global original
+    
+    print(f"3. Contador Global antes da modificação: {contador_global}")
+    
+    contador_global += 1 # Modifica a variável global
+    
+    print(f"4. Contador Global DEPOIS da modificação: {contador_global}")
+    
+    # A variável 'saudacao_local' morrerá quando a função terminar.
+
+# =========================================================
+# EXECUÇÃO DO CÓDIGO
+# =========================================================
+
+print(f"--- Escopo Global (Antes da Chamada) ---")
+print(f"Global 'nome_global': {nome_global}")
+print(f"Global 'contador_global': {contador_global}")
+
+print("\nChamando a função 'escopo_demonstracao()':")
+escopo_demonstracao()
+
+print(f"\n--- Escopo Global (Depois da Chamada) ---")
+print(f"Global 'nome_global': {nome_global} (Inalterada)")
+# Verifique se a alteração feita DENTRO da função afetou a global:
+print(f"Global 'contador_global': {contador_global} (MODIFICADA)")
+
+
+print("\n--- Tentativa de Acesso a Local ---")
+try:
+    # Esta linha falhará, pois a variável 'variavel_local' só existia DENTRO da função.
+    print(f"Tentando acessar Local 'variavel_local': {variavel_local}")
+except NameError as e:
+    print(f"ERRO DE ESCOPO: NameError! Variável local não está definida fora da função: {e}")
