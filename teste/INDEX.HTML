@@ -1,59 +1,71 @@
-# =========================================================
-# DEMONSTRAÇÃO DE ESCOPO GLOBAL E LOCAL EM PYTHON
-# =========================================================
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demonstração de Escopo (Global vs. Local)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+        }
+        .resultado {
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #e9e9e9;
+            border-radius: 4px;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .global {
+            color: blue;
+            font-weight: bold;
+        }
+        .local {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
 
-# Variável Global: Definida no escopo principal, fora de qualquer função.
-nome_global = "Universo"
-contador_global = 5
+    <div class="container">
+        <h1>Escopo de Variáveis: Global vs. Local (JavaScript)</h1>
+        <p>Abra o **Console do Desenvolvedor** (Geralmente F12) para ver os logs detalhados do JavaScript.</p>
+        
+        <div class="resultado">
+            <p><strong>Resultado Visual:</strong></p>
+            <p id="global-before"></p>
+            <p id="inside-function"></p>
+            <p id="global-after"></p>
+            <p id="local-after"></p>
+        </div>
+        
+        <h2>Instruções do Código</h2>
+        <pre>
+let varGlobal = "Eu sou Global - Valor Fora da Função"; 
 
-def escopo_demonstracao():
-    """Função que demonstra o escopo local e a interação com o escopo global."""
+function demonstrarEscopo() {
+    let varLocal = "Eu sou Local - Dentro da Função";
     
-    # Variável Local: Definida dentro da função, só existe aqui.
-    saudacao_local = "Boa Noite"
-    
-    # Acessa a variável GLOBAL para leitura
-    print(f"--- Dentro da Função ---")
-    print(f"1. Acessando Global (Leitura): {saudacao_local}, {nome_global}!")
-    
-    # Tenta criar uma nova variável local com o mesmo nome
-    variavel_local = 10 
-    print(f"2. Variável Local criada: {variavel_local}")
+    // Tentativa de modificar a Global sem a keyword 'var' ou 'let' (Em JS moderno, isso é desaconselhado)
+    // Usando 'let' ou 'const', criamos uma nova variável LOCAL:
+    let varGlobal = "Valor Local que Mascara a Global (SOBREPOSIÇÃO LOCAL)"; 
 
-    # Exemplo de erro se tentarmos usar uma variável global para escrita sem 'global'
-    # O Python tentaria criar uma nova variável local, e falharia se fosse só leitura.
-    # Vamos demonstrar como fazer a modificação corretamente:
-    
-    global contador_global # Declara que queremos USAR e MODIFICAR a variável global original
-    
-    print(f"3. Contador Global antes da modificação: {contador_global}")
-    
-    contador_global += 1 # Modifica a variável global
-    
-    print(f"4. Contador Global DEPOIS da modificação: {contador_global}")
-    
-    # A variável 'saudacao_local' morrerá quando a função terminar.
-
-# =========================================================
-# EXECUÇÃO DO CÓDIGO
-# =========================================================
-
-print(f"--- Escopo Global (Antes da Chamada) ---")
-print(f"Global 'nome_global': {nome_global}")
-print(f"Global 'contador_global': {contador_global}")
-
-print("\nChamando a função 'escopo_demonstracao()':")
-escopo_demonstracao()
-
-print(f"\n--- Escopo Global (Depois da Chamada) ---")
-print(f"Global 'nome_global': {nome_global} (Inalterada)")
-# Verifique se a alteração feita DENTRO da função afetou a global:
-print(f"Global 'contador_global': {contador_global} (MODIFICADA)")
-
-
-print("\n--- Tentativa de Acesso a Local ---")
-try:
-    # Esta linha falhará, pois a variável 'variavel_local' só existia DENTRO da função.
-    print(f"Tentando acessar Local 'variavel_local': {variavel_local}")
-except NameError as e:
-    print(f"ERRO DE ESCOPO: NameError! Variável local não está definida fora da função: {e}")
+    console.log("--- Dentro da Função ---");
+    console.log("1. Variável Local (existe
